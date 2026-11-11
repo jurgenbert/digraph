@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Digraph naar SVG</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>Digraph <span>→</span> SVG</h1>
+    <div class="top-right">
+      <div class="status" id="status" aria-live="polite">Graphviz laden…</div>
+      <a class="manual" href="https://graphviz.org/doc/info/lang.html" target="_blank" rel="noopener">Handleiding ↗</a>
+      <a class="bmc" href="https://www.buymeacoffee.com/jurgenbert" target="_blank" rel="noopener">
+        <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" height="36">
+      </a>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- Linkerkant: code -->
+    <section class="panel" id="editorPanel">
+      <div class="panel-head">
+        <h2>DOT-code</h2>
+        <div class="tools">
+          <div class="snip-wrap">
+            <button type="button" class="btn" id="btnSnippets" title="Snippet invoegen (Ctrl/Cmd + J)" aria-haspopup="true" aria-expanded="false">Snippets ▾</button>
+            <div class="snip-pop" id="snipPop" hidden>
+              <input type="search" id="snipSearch" placeholder="Zoek, bv. pijl, kleur, cluster…" autocomplete="off">
+              <div class="snip-list" id="snipList"></div>
+              <div class="snip-foot">Handleiding: <span id="snipLinks"></span></div>
+            </div>
+          </div>
+          <select id="example" title="Voorbeeld laden">
+            <option value="">Voorbeeld…</option>
+          </select>
+          <div class="menu-wrap">
+            <button type="button" class="btn" id="btnFileMenu" aria-haspopup="true" aria-expanded="false">Bestand ▾</button>
+            <div class="menu-pop" id="fileMenu" role="menu" hidden>
+              <label class="menu-item" role="menuitem" title="Een .dot, .gv of .txt bestand openen">
+                Uploaden…<span class="kbd">.dot .gv .txt</span>
+                <input type="file" id="fileInput" accept=".dot,.gv,.txt,text/plain" hidden>
+              </label>
+              <button type="button" class="menu-item" role="menuitem" id="btnDownloadDot">Digraph-code downloaden<span class="kbd">Ctrl/Cmd + S</span></button>
+              <div class="menu-sep"></div>
+              <button type="button" class="menu-item danger" role="menuitem" id="btnClear">Leegmaken</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dropzone" id="dropzone">
+        <textarea id="code" spellcheck="false" autocomplete="off"
+          placeholder="Plak of typ hier je digraph-code, of sleep een .dot-bestand hierheen…"></textarea>
+        <div class="drop-hint">Laat los om het bestand te openen</div>
+      </div>
+
+      <div class="panel-foot">
+        <label>Engine
+          <select id="engine">
+            <option value="dot">dot</option>
+          </select>
+        </label>
+        <label class="check"><input type="checkbox" id="autoRender" checked> Automatisch tekenen</label>
+        <button type="button" class="btn primary" id="btnRender" title="Ctrl/Cmd + Enter">Tekenen</button>
+      </div>
+
+      <div class="saved">
+        <div class="saved-head">
+          <h3>Bewaarde grafieken <small>(in deze browser)</small></h3>
+          <div class="tools">
+            <input type="text" id="saveName" placeholder="Naam">
+            <button type="button" class="btn" id="btnSave">Bewaren</button>
+          </div>
+        </div>
+        <ul id="savedList" class="saved-list"></ul>
+      </div>
+    </section>
+
+    <!-- Rechterkant: resultaat -->
+    <section class="panel" id="previewPanel">
+      <div class="panel-head">
+        <h2>Resultaat</h2>
+        <div class="tools">
+          <button type="button" class="btn icon" id="zoomOut" title="Uitzoomen">−</button>
+          <button type="button" class="btn" id="zoomFit" title="Passend maken">Passend</button>
+          <button type="button" class="btn icon" id="zoomIn" title="Inzoomen">+</button>
+          <span class="sep"></span>
+          <div class="menu-wrap">
+            <button type="button" class="btn primary" id="btnExportMenu" aria-haspopup="true" aria-expanded="false">Export ▾</button>
+            <div class="menu-pop" id="exportMenu" role="menu" hidden>
+              <button type="button" class="menu-item" role="menuitem" id="btnDownload" disabled>SVG downloaden<span class="kbd">.svg</span></button>
+              <button type="button" class="menu-item" role="menuitem" id="btnPng" disabled>PNG downloaden<span class="kbd">.png, 2× scherp</span></button>
+              <div class="menu-sep"></div>
+              <button type="button" class="menu-item" role="menuitem" id="btnCopy" disabled>SVG-code kopiëren<span class="kbd">klembord</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="error" id="error" hidden></div>
+      <div class="preview" id="preview">
+        <div class="placeholder">Hier verschijnt je graaf.</div>
+      </div>
+      <div class="panel-foot small">
+        <label>Bestandsnaam <input type="text" id="fileName" value="graaf"></label>
+        <span class="muted" id="info"></span>
+      </div>
+    </section>
+  </main>
+
+  <script src="lib/jquery-3.7.1.min.js"></script>
+  <script src="lib/viz-global.js"></script>
+  <script src="js/snippets.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
